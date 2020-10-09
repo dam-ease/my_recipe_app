@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_recipe_app/components/rounded_button.dart';
 import 'package:my_recipe_app/constants.dart';
 
-class RecipeSearch extends StatefulWidget {
-  @override
-  _RecipeSearchState createState() => _RecipeSearchState();
-}
-
-class _RecipeSearchState extends State<RecipeSearch> {
+class RecipeSearch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -47,7 +41,6 @@ class _RecipeSearchState extends State<RecipeSearch> {
         ),
       ),
       body: Container(
-        padding: EdgeInsets.only(left: 20.0, right: 20.0),
         // height: size.height * 0.33,
         constraints: BoxConstraints.expand(),
         decoration: BoxDecoration(
@@ -61,54 +54,81 @@ class _RecipeSearchState extends State<RecipeSearch> {
               SizedBox(
                 height: 26.0,
               ),
-              Text(
-                'Search by Recipe',
-                style: TextStyle(
-                  fontSize: 18.0,
-                  color: Colors.white,
-                  fontFamily: 'Apercu Pro',
+              Padding(
+                padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                child: Text(
+                  'Search by Recipe',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    color: Colors.white,
+                    fontFamily: 'Apercu Pro',
+                  ),
                 ),
               ),
               SizedBox(
                 height: 10.0,
               ),
-              TextFormField(
-                decoration: kInputDecoration.copyWith(
-                    hintText: 'What recipe are you looking for?',
-                    contentPadding: EdgeInsets.only(left: 15.0),
-                    suffixIcon: Icon(
-                      Icons.search,
-                      color: Colors.grey,
-                    ),
-                    fillColor: Colors.white,
-                    hintStyle: kHintStyle2),
-                onChanged: (value) => {print(value)},
+              Padding(
+                padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                child: TextFormField(
+                  decoration: kInputDecoration.copyWith(
+                      hintText: 'What recipe are you looking for?',
+                      contentPadding: EdgeInsets.only(left: 15.0),
+                      suffixIcon: Icon(
+                        Icons.search,
+                        color: Colors.grey,
+                      ),
+                      fillColor: Colors.white,
+                      hintStyle: kHintStyle2),
+                  onChanged: (value) => {print(value)},
+                ),
               ),
               SizedBox(
                 height: 49.0,
               ),
-              Column(
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        'My search history',
-                        style: kHintStyle2,
-                      ),
-                      Spacer(),
-                      IconButton(
-                          icon: Icon(Icons.arrow_forward,
-                              size: 20, color: Colors.grey),
-                          onPressed: () {}),
-                    ],
-                  ),
-                  Divider(color: Colors.black)
-                ],
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15.0),
+                        topRight: Radius.circular(15.0))),
+                child: Column(
+                  children: [
+                    CustomListTile(
+                        title: 'My search history', onPressed: () => null),
+                    customDivider(),
+                    CustomListTile(
+                        title: 'My favorite recipes', onPressed: () => null),
+                    customDivider(),
+                  ],
+                ),
               )
             ],
           ),
         ),
       ),
     );
+  }
+
+  Divider customDivider() {
+    return Divider(
+      color: Colors.grey[300],
+      indent: 18.0,
+      endIndent: 20.0,
+    );
+  }
+}
+
+class CustomListTile extends StatelessWidget {
+  final String title;
+  final VoidCallback onPressed;
+  CustomListTile({this.title, this.onPressed});
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+        title: new Text(title, style: kHintStyle2),
+        trailing: IconButton(
+            icon: Icon(Icons.arrow_forward, size: 20, color: Colors.grey),
+            onPressed: onPressed));
   }
 }
